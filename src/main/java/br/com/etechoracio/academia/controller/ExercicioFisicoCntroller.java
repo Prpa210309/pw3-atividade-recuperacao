@@ -38,4 +38,9 @@ public class ExercicioFisicoCntroller {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(exercicio);
     }
+    
+    @PatchMapping("/{id}/aprovar")
+    public ResponseEntity<ExercicioFisicoResponseDto> aprovar(@PathVariable Long id){
+        return service.aprovar(id).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
 }

@@ -45,4 +45,20 @@ public class ExercicioFisicoService {
 
         return mapper.toResponseDto(salvo);
     }
+
+    public Optional<ExercicioFisicoResponseDto> aprovar(Long id){
+        Optional<ExercicioFisico> resultado = repository.findById(id);
+
+        if (resultado.isEmpty()){
+            return Optional.empty();
+        }
+
+        ExercicioFisico exercicio = resultado.get();
+
+        exercicio.setAprovado(true);
+
+        ExercicioFisico atualizado = repository.save(exercicio);
+
+        return Optional.of(mapper.toResponseDto(atualizado));
+    }
 }
