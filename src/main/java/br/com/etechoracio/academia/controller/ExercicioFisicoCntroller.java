@@ -1,12 +1,11 @@
 package br.com.etechoracio.academia.controller;
 
+import br.com.etechoracio.academia.dto.ExercicioFisicoRequestDto;
 import br.com.etechoracio.academia.dto.ExercicioFisicoResponseDto;
 import br.com.etechoracio.academia.service.ExercicioFisicoService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,7 +26,16 @@ public class ExercicioFisicoCntroller {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ExercicioFisicoResponseDto> buscarPorId(@PathVariable Longid){
+    public ResponseEntity<ExercicioFisicoResponseDto> buscarPorId(@PathVariable Long id){
         return service.buscarPorId(id).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    public ResponseEntity<ExercicioFisicoResponseDto> cadastrar(
+            @RequestBody ExercicioFisicoRequestDto dto
+            ){
+        ExercicioFisicoResponseDto exercicio = service.cadastrar(dto);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(exercicio);
     }
 }

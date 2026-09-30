@@ -1,5 +1,6 @@
 package br.com.etechoracio.academia.service;
 
+import br.com.etechoracio.academia.dto.ExercicioFisicoRequestDto;
 import br.com.etechoracio.academia.dto.ExercicioFisicoResponseDto;
 import br.com.etechoracio.academia.entity.ExercicioFisico;
 import br.com.etechoracio.academia.mapper.ExercicioFisicoMapper;
@@ -33,5 +34,15 @@ public class ExercicioFisicoService {
          Optional<ExercicioFisico> exercicio = repository.findByIdAndAprovadoTrue(id);
 
          return exercicio.map(mapper::toResponseDto);
+    }
+
+    public ExercicioFisicoResponseDto cadastrar(ExercicioFisicoRequestDto dto){
+        ExercicioFisico exercicio = mapper.toEntity(dto);
+
+        exercicio.setAprovado(false);
+
+        ExercicioFisico salvo = repository.save(exercicio);
+
+        return mapper.toResponseDto(salvo);
     }
 }
