@@ -7,6 +7,7 @@ import br.com.etechoracio.academia.repository.ExercicioFisicoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ExercicioFisicoService {
@@ -26,5 +27,11 @@ public class ExercicioFisicoService {
         List<ExercicioFisico> exercicios = repository.findByAprovadoTrue();
 
         return exercicios.stream().map(mapper::toResponseDto).toList();
+    }
+
+    public Optional<ExercicioFisicoResponseDto> buscarPorId(Long id){
+         Optional<ExercicioFisico> exercicio = repository.findByIdAndAprovadoTrue(id);
+
+         return exercicio.map(mapper::toResponseDto);
     }
 }
